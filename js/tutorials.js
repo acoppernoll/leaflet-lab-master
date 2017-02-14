@@ -1,3 +1,4 @@
+//Austin Coppernoll
 // creates mymap variable as an instiantiated map object passed the 'mapid' div element
 // numbers in brackets are geographical center of map object (lat, lng) with initial map zoom value following comma
 var mymap = L.map('mapid').setView([51.505, -0.09], 13);

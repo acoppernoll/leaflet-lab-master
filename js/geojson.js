@@ -1,3 +1,4 @@
+//austin coppernoll
 //function to instantiate the Leaflet map
 function createMap(){
     //create the map
