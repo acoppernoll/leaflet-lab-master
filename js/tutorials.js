@@ -41,9 +41,9 @@ function onMapClick(e) {
         .setContent("You clicked the map at " + e.latlng.toString())
         .openOn(mymap);
 }
-
+//creates map click object
 mymap.on('click', onMapClick);
-
+//
 var someFeatures = [{
     "type": "Feature",
     "properties": {
@@ -65,7 +65,7 @@ var someFeatures = [{
         "coordinates": [-104.98404, 39.74621]
     }
 }];
-
+//creates geojson layer passed geojson-formatted object with an exclusive filter applied
 L.geoJSON(someFeatures, {
     filter: function(feature, layer) {
         return feature.properties.show_on_map;
