@@ -72,7 +72,7 @@ function getData(map){
 
 function calcPropRadius(attValue) {
     //scale factor to adjust symbol size evenly
-    var scaleFactor = 50;
+    var scaleFactor = .0005;
     //area based on attribute value and scale factor
     var area = attValue * scaleFactor;
     //radius calculated based on area
@@ -101,7 +101,7 @@ function createPropSymbols(data, map){
 
           //examine the attribute value to check that it is correct
           geojsonMarkerOptions.radius = calcPropRadius(attValue);
-          console.log(feature.properties, attValue);
+          console.log(feature.properties[attribute], attValue);
 
           //create circle markers
           return L.circleMarker(latlng, geojsonMarkerOptions);
