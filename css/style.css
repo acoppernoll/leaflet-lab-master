@@ -1,1 +1,9 @@
+/*leaflet-popup-content p {
+    //margin: 0.2em 0;
+};*/
 
+#map {
+    height: 400px;
+    width: 80%;
+    display: inline-block;
+}

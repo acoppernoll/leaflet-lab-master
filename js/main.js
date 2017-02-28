@@ -81,9 +81,12 @@ function calcPropRadius(attValue) {
     return radius;
 };
 
-function createPropSymbols(data, map){
+function pointToLayer(feature, latlng){
+
     //create marker options
-    var geojsonMarkerOptions = {
+    var attribute = "2015";
+
+    var options = {
         radius: 8,
         fillColor: "#ff7800",
         color: "#000",
@@ -91,22 +94,47 @@ function createPropSymbols(data, map){
         opacity: 1,
         fillOpacity: 0.8
 
-
     };
-    var attribute = "2015";
-    //create a Leaflet GeoJSON layer and add it to the map
+
+    var attValue = Number(feature.properties[attribute]);
+
+    options.radius = calcPropRadius(attValue);
+
+    var layer = L.circleMarker(latlng, options);
+
+    //var popupContent = "<p><b>City:</b> " + feature.properties.City + "</p><p><b>" + attribute + ":</b> " + feature.properties[attribute] + "</p>";
+    var popupContent = "<p><b>City:</b> " + feature.properties.Name + "</p>";
+
+    //add formatted attribute to popup content string
+    var year = attribute.split("_")[1];
+    popupContent += "<p><b>Asian Population in " + 2015 + ":</b> " + feature.properties[attribute] + " Individuals</p>";
+
+    layer.bindPopup(popupContent, {
+        offset: new L.Point(0,-options.radius)
+    });
+
+
+    return layer;
+};
+
+function createPropSymbols(data, map){
+
     L.geoJson(data, {
-        pointToLayer: function (feature, latlng) {
-          var attValue = Number(feature.properties[attribute]);
+      pointToLayer: pointToLayer
+    }).addTo(map);
+    //create a Leaflet GeoJSON layer and add it to the map
+    //L.geoJson(data, {
+        //pointToLayer: function (feature, latlng) {
+
 
           //examine the attribute value to check that it is correct
-          geojsonMarkerOptions.radius = calcPropRadius(attValue);
-          console.log(feature.properties[attribute], attValue);
+
+          //console.log(feature.properties[attribute], attValue);
 
           //create circle markers
-          return L.circleMarker(latlng, geojsonMarkerOptions);
-        }
-    }).addTo(map);
+          //return L.circleMarker(latlng, geojsonMarkerOptions);
+
+
 };
 
 //Step 2: Import GeoJSON data
