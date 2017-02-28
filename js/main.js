@@ -3,7 +3,7 @@
 function createMap(){
     //create the map
     var map = L.map('mapid', {
-        center: [20, 0],
+        center: [35, -80],
         zoom: 2
     });
 
@@ -85,6 +85,8 @@ function pointToLayer(feature, latlng){
 
     //create marker options
     var attribute = "2015";
+    //check
+    console.log(attribute);
 
     var options = {
         radius: 8,
@@ -107,7 +109,7 @@ function pointToLayer(feature, latlng){
 
     //add formatted attribute to popup content string
     var year = attribute.split("_")[1];
-    popupContent += "<p><b>Asian Population in " + 2015 + ":</b> " + feature.properties[attribute] + " Individuals</p>";
+    popupContent += "<p><b>Asian Population in " + attribute + ":</b> " + feature.properties[attribute] + " Individuals</p>";
 
     layer.bindPopup(popupContent, {
         offset: new L.Point(0,-options.radius)
@@ -117,10 +119,12 @@ function pointToLayer(feature, latlng){
     return layer;
 };
 
-function createPropSymbols(data, map){
+function createPropSymbols(data, map, attributes){
 
     L.geoJson(data, {
-      pointToLayer: pointToLayer
+      pointToLayer: function(feature, latlng){
+            return pointToLayer(feature, latlng, attributes);
+      }
     }).addTo(map);
     //create a Leaflet GeoJSON layer and add it to the map
     //L.geoJson(data, {
@@ -137,14 +141,54 @@ function createPropSymbols(data, map){
 
 };
 
+function createSequenceControls(map){
+    //create range input element (slider)
+    $('#panel').append('<input class="range-slider" type="range">');
+
+    //set slider attributes
+    $('.range-slider').attr({
+        max: 6,
+        min: 0,
+        value: 0,
+        step: 1
+    });
+};
+
+function processData(data){
+    //empty array to hold attributes
+    var attributes = [];
+
+    //properties of the first feature in the dataset
+    var properties = data.features[0].properties;
+    console.log(properties);
+
+    //push each attribute name into attributes array
+    for (var attribute in properties){
+        //only take attributes with population values
+        if (attribute.indexOf("Pop") > -1){
+            attributes.push(attribute);
+        };
+    };
+
+    //check result
+    console.log(attributes);
+
+    return attributes;
+};
+
 //Step 2: Import GeoJSON data
 function getData(map){
     //load the data
     $.ajax("data/asian_census_data.geojson", {
         dataType: "json",
         success: function(response){
+
+            //create an attributes array
+            var attributes = processData(response);
+
             //call function to create proportional symbols
-            createPropSymbols(response, map);
+            createPropSymbols(response, map, attributes);
+            createSequenceControls(map, attributes);
         }
     });
 };
