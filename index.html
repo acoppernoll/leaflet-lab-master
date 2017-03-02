@@ -17,15 +17,27 @@
 	<body>
 		<div id="mapid"></div>
 		<div id="panel"></div>
+
 		<!--put your initial page content here-->
 
 		<!--you can also use this space for internal scripts or stylesheets;
 		place these within <script> or <style> tags-->
 
 		<!--put your external script links here-->
+		<form>
+  		<button type="button" id="submit" value="Submit"> Submit </button>
+		</form>
+		<form>
+  		Change symbol color to:
+  		<input type="color" id="color" name="favcolor">
+		</form>
+		<br>
+		Increase symbol scale by:
+		<input type="button" onclick="alert('Hello World!')" value="125%" id="scale1"> <input type="button" onclick="alert('Hello World!')" value="150%"><input type="button" onclick="alert('Hello World!')" value="200%">
 		<script type="text/javascript" src="lib/jquery.js"></script>
 		<script type="text/javascript" src="lib/leaflet/leaflet-src.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>
+
 	</body>
 </html>
 <!--austin coppernoll-->

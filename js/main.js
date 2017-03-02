@@ -143,7 +143,7 @@ function createPropSymbols(data, map, attributes){
 function updatePropSymbols(map, attribute){
 
   map.eachLayer(function(layer){
-       if (layer.feature && layer.feature.properties[attribute]){
+       if (layer.feature && (layer.feature.properties[attribute] || layer.feature.properties[attribute] == 0) ){
          var props = layer.feature.properties;
 
             //update each feature's radius based on new attribute values
@@ -170,6 +170,34 @@ function updatePropSymbols(map, attribute){
        };
    });
 };
+
+function userinput (map, attributes, options, latlng){
+console.log($('#submit'));
+console.log($('#scale1'))
+  $('#submit').on('click', function(){
+console.log('hello you clicked me')
+    var color = $('#color').val();
+    map.eachLayer(function(layer){
+      if (layer.feature){
+        var properties = layer.feature.properties;
+        var radi1 = $('scale1').val(layer.getradius()*1.25)
+
+
+        var coloropt = {
+            radius: radi,
+            fillColor: color
+        }
+        layer.setStyle(coloropt, radi);
+        // var scaleopt = $(this).val();
+        // options.radius = calcPropRadius(scaleopt);
+        // var layer = L.circleMarker(latlng, coloropt);
+        // updatePropSymbols(map, attributes[color, scaleopt])
+    }
+
+    });
+  });
+  };
+
 
 function createSequenceControls(map, attributes){
     //create range input element (slider)
@@ -210,6 +238,8 @@ function processData(data){
     return attributes;
 };
 
+
+
 //Step 2: Import GeoJSON data
 function getData(map){
     //load the data
@@ -223,6 +253,7 @@ function getData(map){
             //call function to create proportional symbols
             createPropSymbols(response, map, attributes);
             createSequenceControls(map, attributes);
+            userinput(map);
         }
     });
 };

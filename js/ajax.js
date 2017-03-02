@@ -17,7 +17,7 @@ function jsAjax(){
   };
 
   //open the ajax request
-  ajaxRequest.open('GET', 'data/MegaCities.geojson', true);
+  ajaxRequest.open('GET', 'data/asian_census_data.geojson', true);
 
   //set the response type of the data
   ajaxRequest.responseType = "json";
@@ -44,7 +44,7 @@ function jqueryAjax(){
   //   'success':  jQueryCallback
   // });
 
-  $.getJSON("data/MegaCities.geojson", jQueryCallback);
+  $.getJSON("data/asian_census_data.geojson", jQueryCallback);
 };
 
 function jQueryCallback(data){
